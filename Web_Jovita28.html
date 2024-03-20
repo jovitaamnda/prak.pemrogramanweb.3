@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f4f4f4;
+          padding: 20px;
+        }
+        
+        .container {
+          max-width: 400px;
+          margin: 0 auto;
+          background: #fff;
+          padding: 20px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          border-radius: 8px;
+        }
+        
+        h2 {
+          text-align: center;
+          color: #333;
+        }
+        
+        form {
+          display: flex;
+          flex-direction: column;
+        }
+        
+        label {
+          margin-top: 10px;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+          padding: 10px;
+          margin-top: 5px;
+          margin-bottom: 10px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+        }
+        
+        .error-message {
+          color: #d32f2f;
+          font-size: 0.85em;
+        }
+        
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+          outline: none;
+          border-color: #007bff;
+        }
+        
+        input[type="text"].error,
+        input[type="email"].error,
+        input[type="password"].error {
+          border-color: #d32f2f;
+        }
+        
+        button[type="submit"] {
+          padding: 10px;
+          color: #fff;
+          background-color: #007bff;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          margin-top: 20px;
+        }
+        
+        button[type="submit"]:hover {
+          background-color: #0056b3;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('registrationForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const inputs = [
+                    document.getElementById('name'),
+                    document.getElementById('email'),
+                    document.getElementById('password'),
+                    document.getElementById('confirm_password'),
+                    document.getElementById('address')
+                ];
+
+                let isValid = true;
+
+                for (let input of inputs) {
+                    if (input.value.trim() === "") {
+                        input.style.borderColor = 'red';
+                        isValid = false;
+                        alert(`Isian kolom ${input.name} tidak boleh kosong`);
+                        break;
+                    } else if (input.id === 'password' && input.value.length < 8) {
+                        input.style.borderColor = 'red';
+                        isValid = false;
+                        document.getElementById('password_error').textContent = 'Kata sandi harus memiliki minimal 8 karakter.';
+                        break;
+                    } else if (input.id === 'confirm_password' && input.value !== document.getElementById('password').value) {
+                        input.style.borderColor = 'red';
+                        document.getElementById('password').style.borderColor = 'red';
+                        isValid = false;
+                        document.getElementById('confirm_password_error').textContent = 'Konfirmasi kata sandi tidak cocok.';
+                        break;
+                    } else if (input.id == 'address' && (input.value.length < 50 || input.value.length > 100)) {
+                        input.style.borderColor = 'red';
+                        isValid = false;
+                        document.getElementById('address_error').textContent = 'Alamat harus memiliki 50 hingga 100 karakter';
+                        break;
+                    } else {
+                        input.style.borderColor = '';
+                        document.getElementById('password_error').textContent = '';
+                        document.getElementById('confirm_password_error').textContent = '';
+                        if (input.id == 'address') document.getElementById('address_error').textContent = '';
+                    }
+                }
+
+                if (isValid) {
+                    alert("Pendaftaran berhasil!");
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="container">
+        <form id="registrationForm">
+            <h2>Daftar Akun Baru</h2>
+            <label for="name">Nama:</label>
+            <input type="text" id="name" name="name">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+
+            <label for="password">Kata Sandi:</label>
+            <input type="password" id="password" name="password">
+            <div id="password_error" class="error-message"></div>
+
+            <label for="confirm_password">Konfirmasi Kata Sandi:</label>
+            <input type="password" id="confirm_password" name="confirm_password">
+            <div id="confirm_password_error" class="error-message"></div>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address">
+            <div id="address_error" class="error-message"></div>
+
+            <button type="submit">Daftar</button>
+        </form>
+    </div>
+</body>
+
+</html>
